@@ -2,7 +2,10 @@ module hertz_demo
 
 go 1.21.3
 
-require github.com/cloudwego/hertz v0.7.1
+require (
+	github.com/apache/thrift v0.19.0
+	github.com/cloudwego/hertz v0.7.1
+)
 
 require (
 	github.com/bytedance/go-tagexpr/v2 v2.9.2 // indirect

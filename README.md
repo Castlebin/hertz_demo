@@ -53,4 +53,59 @@ curl http://127.0.0.1:8888/ping
 {"message":"pong"}
 ```
 
+#### 通过指定已经定义好的 idl 文件进行代码生成
+首先，创建 idl/thrift/hello.thrift 文件，内容如下:
+```thrift
+service HelloService {
+    string Hello(1: string name) (api.get="/hello");
+}
+```
+!!注意，官网这里的 idl 文件有误，需要修改成上面这样（添加了 (api.get="/hello") ）。否则生成的代码不完整，不能正常运行。
+
+
+因为本项目已经是一个 Hertz 项目，所以使用 idl，应该使用 `hz update` 命令
+```shell
+hz update -idl idl/thrift/hello.thrift
+```
+
+反之，如果我们上面并没有使用 `hz new` 命令创建项目，而是想通过 idl 文件创建项目，那么应该使用 `hz new -idl` 命令
+```shell
+hz new -module hertz_demo -idl idl/thrift/hello.thrift
+```
+
+可以看到，biz 目录下已经生成了各种代码。
+
+启动项目
+```shell
+go run .
+```
+（如果项目依赖有问题，执行一下 `go mod tidy`）
+
+可以看到，服务已经启动，但是访问 /hello 会报错
+```shell
+curl  http://127.0.0.1:8888/hello?name=LiLei
+```
+
+因为 hello_service.go 中生成的代码，默认是绑定 json 格式的请求。我们现在是 get 请求，不带请求体，需要从 url 中获取参数。所以我们修改一下:
+```go
+func Hello(ctx context.Context, c *app.RequestContext) {
+	// 从请求中获取参数
+	name := c.Query("name")
+
+	if name == "" {
+		name = "World"
+	}
+
+	c.JSON(consts.StatusOK, map[string]string{"msg": "Hello, " + name})
+}
+```
+
+重新启动项目，访问
+```shell
+curl  http://127.0.0.1:8888/hello?name=LiLei
+```
+可以看到，正常返回
+```
+{"msg":"Hello, LiLei"}
+```
 
