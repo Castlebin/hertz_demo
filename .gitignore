@@ -1,48 +1,37 @@
-# Binaries for programs and plugins
+*.o
+*.a
+*.so
+_obj
+_test
+*.[568vq]
+[568vq].out
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+_testmain.go
 *.exe
 *.exe~
-*.dll
-*.so
-*.dylib
-/judge
-
-# Test binary, build with `go test -c`
 *.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# OS
-.DS_Store
-
-# Test Env
-env*.sh
-init.sql
-
-# wrk stress test
-/*.lua
-
-node_modules
-
-# not release yet
-package*.json
-
-example.js
-executor_server.h
-/executor_server
-/executorproxy
-/executorshell
-/executorserver
-/cinit
-/tmp
-
-cmd/executorserver/version/version.txt
-
-# dist/
-
-.idea
-
+*.prof
+*.rar
+*.zip
+*.gz
+*.psd
+*.bmd
+*.cfg
+*.pptx
 *.log
-
-storage/app/public/local
-
+*nohup.out
+*settings.pyc
+*.sublime-project
+*.sublime-workspace
+!.gitkeep
+.DS_Store
+/.idea
+/.vscode
+/output
+*.local.yml
+dumped_hertz_remote_config.json
+		  

@@ -18,3 +18,39 @@ curl http://127.0.0.1:8888/ping
 ```
 {"message":"pong"}
 ```
+
+### 代码自动生成工具 hz
+Hertz 提供了代码自动生成工具 hz
+
+首先，删除上一步的所有 go 代码。准备使用 hz 代码生成工具来生成项目的脚手架
+
+#### 安装命令行工具 hz
+```shell
+go install github.com/cloudwego/hertz/cmd/hz@latest
+```
+
+#### 生成项目脚手架
+```shell
+# 在 GOPATH 外执行，需要指定 go mod 名
+hz new -module hertz_demo
+
+# 整理 & 拉取依赖
+go mod tidy
+```
+
+启动项目
+```shell
+go run .
+```
+
+访问
+```shell
+curl http://127.0.0.1:8888/ping
+```
+
+可以看到返回
+```
+{"message":"pong"}
+```
+
+
