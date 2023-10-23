@@ -109,3 +109,45 @@ curl  http://127.0.0.1:8888/hello?name=LiLei
 {"msg":"Hello, LiLei"}
 ```
 
+#### 代码生成进阶
+新建 idl/thrift/greeting.thrift 文件，内容如下:
+```thrift
+namespace go demo.greeting
+
+struct GreetingReq {
+    1: string Name (api.query="name");
+}
+
+struct GreetingResp {
+    1: string code;
+    2: string data;
+    3: string msg;
+    4: i64 timestamp;
+}
+
+
+service GreetingService {
+    GreetingResp Greeting(1: GreetingReq request) (api.get="/greeting");
+}
+```
+可以看到，在 GreetingReq 结构体中，我们使用了 `api.query="name"`，这样生成的代码就会自动从 url 中获取参数 name。
+
+然后，执行 `hz update -idl idl/thrift/greeting.thrift` 命令，生成代码。
+
+！！启动项目，发现编译有问题。将 go.mod 中 require 的 thrift 依赖的版本修改为 0.13.0，重新拉取依赖，编译通过。!!
+```
+require (
+	github.com/apache/thrift v0.13.0  // 改成 v0.13.0 ，不然 hz 生成的代码会报错。thrift 的 api 变了
+	github.com/cloudwego/hertz v0.7.1
+)
+```
+再次启动项目，发现编译启动都没问题了。
+
+访问
+```shell
+curl http://127.0.0.1:8888/greeting?name=LiLei
+```
+也可以正常返回结果
+
+然后将 生成的代码 greeting_service.go 中的 Greeting 方法逻辑按自己的想法进行修改即可。
+

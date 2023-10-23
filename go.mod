@@ -3,7 +3,7 @@ module hertz_demo
 go 1.21.3
 
 require (
-	github.com/apache/thrift v0.19.0
+	github.com/apache/thrift v0.13.0  // 改成 v0.13.0 ，不然 hz 生成的代码会报错。thrift 的 api 变了
 	github.com/cloudwego/hertz v0.7.1
 )
 
